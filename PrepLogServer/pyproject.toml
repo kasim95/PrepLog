@@ -1,0 +1,41 @@
+[project]
+name = "preplogserver"
+version = "0.1.0"
+description = "PrepLog backend API server"
+requires-python = ">=3.13"
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "alembic>=1.18.4",
+    "fastapi>=0.135.1",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.13.1",
+    "python-multipart>=0.0.22",
+    "sqlalchemy>=2.0.48",
+    "uvicorn>=0.41.0",
+    "greenlet>=3.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.0.2",
+    "pytest-asyncio>=1.3.0",
+    "pytest-mock>=3.15.1",
+    "ruff>=0.15.5",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+testpaths = ["tests"]
