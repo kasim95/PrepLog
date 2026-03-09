@@ -1,0 +1,21 @@
+{
+  "name": "preplog-chrome-extension",
+  "version": "1.0.0",
+  "description": "PrepLog Chrome extension for LeetCode problem tracking",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch"
+  },
+  "keywords": ["leetcode", "interview-prep"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/chrome": "^0.1.37",
+    "copy-webpack-plugin": "^14.0.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^6.0.1"
+  }
+}

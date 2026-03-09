@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrepLog</title>
+    <link rel="stylesheet" href="styles/popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="header">PrepLog</h1>
+
+      <div class="section">
+        <label for="server-url">Server URL:</label>
+        <div class="input-group">
+          <input type="text" id="server-url" value="http://localhost:8000" />
+          <button id="save-url" class="btn btn-sm">Save</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div id="status" class="status status-disconnected">
+          Status: Checking...
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Current Problem</h2>
+        <div id="problem-info" class="problem-info">
+          <span class="muted">No problem detected</span>
+        </div>
+      </div>
+
+      <div class="section actions">
+        <button id="track-btn" class="btn btn-primary" disabled>
+          Track Problem
+        </button>
+        <button id="submit-btn" class="btn btn-secondary" disabled>
+          Send Submission
+        </button>
+      </div>
+
+      <div id="message" class="message hidden"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
