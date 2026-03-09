@@ -1,0 +1,71 @@
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - preplog
+
+  preplog-server:
+    build:
+      context: ./PrepLogServer
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      PREPLOG_DATABASE_URL: "sqlite+aiosqlite:///./data/preplog.db"
+      PREPLOG_RECORDINGS_DIR: "/app/data/recordings"
+      PREPLOG_TRANSCRIPTION_SERVICE_URL: "http://transcription-api:8001"
+      PREPLOG_CALLBACK_BASE_URL: "http://preplog-server:8000"
+    volumes:
+      - server-data:/app/data
+    depends_on:
+      - redis
+      - transcription-api
+    restart: unless-stopped
+    networks:
+      - preplog
+
+  transcription-api:
+    build:
+      context: ./TranscriptionService
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      TRANSCRIPTION_REDIS_URL: "redis://redis:6379/0"
+    volumes:
+      - transcription-temp:/app/temp_audio
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - preplog
+
+  celery-worker:
+    build:
+      context: ./TranscriptionService
+      dockerfile: Dockerfile
+    command: uv run celery -A app.celery_app:celery_app worker --loglevel=info --concurrency=1
+    environment:
+      TRANSCRIPTION_REDIS_URL: "redis://redis:6379/0"
+    volumes:
+      - transcription-temp:/app/temp_audio
+    depends_on:
+      - redis
+      - transcription-api
+    restart: unless-stopped
+    networks:
+      - preplog
+
+volumes:
+  redis-data:
+  server-data:
+  transcription-temp:
+
+networks:
+  preplog:
+    driver: bridge
