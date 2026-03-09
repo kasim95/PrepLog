@@ -1,0 +1,34 @@
+[project]
+name = "preploggui"
+version = "0.1.0"
+description = "PrepLog desktop GUI application"
+requires-python = ">=3.13"
+dependencies = [
+    "pyaudio>=0.2.14",
+    "requests>=2.32.5",
+]
+
+[project.gui-scripts]
+preplog = "app.main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-mock>=3.15.1",
+    "ruff>=0.15.5",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
